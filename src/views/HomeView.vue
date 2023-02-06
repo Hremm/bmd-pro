@@ -69,10 +69,6 @@
               <i class="el-icon-plus"></i>
               <span slot="title">添加电影</span>
             </el-menu-item>
-            <el-menu-item index="/home/movie-update">
-              <i class="el-icon-edit"></i>
-              <span slot="title">修改电影</span>
-            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>

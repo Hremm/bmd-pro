@@ -43,7 +43,7 @@ const routes = [
         component: () => import("../views/movie/MovieAdd.vue"),
       },
       {
-        path: "movie-update",
+        path: "movie-update/:id",
         component: () => import("../views/movie/MovieUpdate.vue"),
       },
     ],

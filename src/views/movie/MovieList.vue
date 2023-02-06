@@ -67,9 +67,10 @@
             circle
           ></el-button>
           <el-button
+            @click="$router.push('/home/movie-update/' + scope.row.id)"
             size="small"
             type="warning"
-            icon="el-icon-star-off"
+            icon="el-icon-edit"
             circle
           ></el-button>
           <el-button
