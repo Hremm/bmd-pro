@@ -172,7 +172,7 @@ export default {
         if (valid) {
           // 表单验证通过
           // 若表单数据收集完毕，发送修改请求即可
-          httpApi.movieAPI.add(this.form).then((res) => {
+          httpApi.movieAPI.update(this.form).then((res) => {
             if (res.data.code == 200) {
               // 跳转到列表
               this.$message.success("恭喜，更新成功");

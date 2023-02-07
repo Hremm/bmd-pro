@@ -1,32 +1,38 @@
 <template>
   <div>
-    <el-form label-width="120px">
-      <el-form-item label="电影院名称">
-        <el-input type="text" v-model="cinema_name"></el-input>
+    <el-form
+      label-width="120px"
+      style="width: 650px"
+      ref="form"
+      :rules="rules"
+      :model="form"
+    >
+      <el-form-item label="电影院名称" prop="cinema_name">
+        <el-input type="text" v-model="form.cinema_name"></el-input>
       </el-form-item>
       <el-form-item label="选择位置">
         <div id="container" style="height: 200px; border: 1px solid #666"></div>
       </el-form-item>
-      <el-form-item label="详细地址">
-        <el-input type="text" v-model="address"></el-input>
+      <el-form-item label="详细地址" prop="address">
+        <el-input type="text" v-model="form.address"></el-input>
       </el-form-item>
-      <el-form-item label="省份">
-        <el-input type="text" v-model="province"></el-input>
+      <el-form-item label="省份" prop="province">
+        <el-input type="text" v-model="form.province"></el-input>
       </el-form-item>
-      <el-form-item label="城市">
-        <el-input type="text" v-model="city"></el-input>
+      <el-form-item label="城市" prop="city">
+        <el-input type="text" v-model="form.city"></el-input>
       </el-form-item>
-      <el-form-item label="地区">
-        <el-input type="text" v-model="district"></el-input>
+      <el-form-item label="地区" prop="district">
+        <el-input type="text" v-model="form.district"></el-input>
       </el-form-item>
-      <el-form-item label="经度">
-        <el-input type="text" v-model="longitude"></el-input>
+      <el-form-item label="经度" prop="longitude">
+        <el-input type="text" v-model="form.longitude"></el-input>
       </el-form-item>
-      <el-form-item label="纬度">
-        <el-input type="text" v-model="latitude"></el-input>
+      <el-form-item label="纬度" prop="latitude">
+        <el-input type="text" v-model="form.latitude"></el-input>
       </el-form-item>
-      <el-form-item label="选择标签">
-        <el-select v-model="form.tags">
+      <el-form-item label="选择标签" prop="tags">
+        <el-select multiple v-model="form.tags">
           <el-option
             v-for="item in tags"
             :key="item.id"
@@ -36,7 +42,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">新增电影院</el-button>
+        <el-button type="primary" @click="submit">新增电影院</el-button>
         <el-button>重置</el-button>
       </el-form-item>
     </el-form>
@@ -58,18 +64,58 @@ export default {
         province: "",
         city: "",
         district: "",
-        cinemlongitudea_name: "",
+        longitude: "",
         latitude: "",
-        tags: "",
+        tags: [],
+      },
+      rules: {
+        cinema_name: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        address: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        province: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        city: [{ required: true, message: "该字段不能为空", trigger: "blur" }],
+        district: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        longitude: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        latitude: [
+          { required: true, message: "该字段不能为空", trigger: "blur" },
+        ],
+        tags: [
+          { required: true, message: "该字段不能为空", trigger: "change" },
+        ],
       },
     };
   },
   methods: {
+    submit() {
+      this.form.tags = this.form.tags.join(" / ");
+      // 发送请求，添加电影院信息
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          // 发送请求，添加电影院信息
+          httpApi.cinemaApi.add(this.form).then((res) => {
+            console.log("新增电影院", res);
+            if (res.data.code == 200) {
+              this.$message.success("恭喜，影院开业大吉！");
+              this.$router.push("/home/cinema-list");
+            }
+          });
+        }
+      });
+    },
     initMap() {
       AMapLoader.load({
         key: "7bc653e04678082d08022d65625bad6e", // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: [""], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: ["AMap.Geocoder"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       }).then((AMap) => {
         this.map = new AMap.Map("container", {
           //设置地图容器id
@@ -86,7 +132,8 @@ export default {
           geocoder.getAddress([lng, lat], (status, result) => {
             console.log(status, result);
             let info = result.regeocode.addressComponent;
-            this.form.address = info.address;
+            this.form.address = result.regeocode.formattedAddress;
+
             this.form.city = info.city;
             this.form.province = info.province;
             this.form.district = info.district;
