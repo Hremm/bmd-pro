@@ -28,11 +28,11 @@
           </el-menu-item>
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-user-solid"></i>
               <span slot="title">演员管理</span>
             </template>
             <el-menu-item index="/home/actor-list">
-              <i class="el-icon-notebook-2"></i>
+              <i class="el-icon-user-solid"></i>
               <span slot="title">演员列表</span>
             </el-menu-item>
             <el-menu-item index="/home/actor-add">
@@ -43,11 +43,11 @@
 
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-user"></i>
               <span slot="title">导演管理</span>
             </template>
             <el-menu-item index="/home/director-list">
-              <i class="el-icon-notebook-2"></i>
+              <i class="el-icon-user"></i>
               <span slot="title">导演列表</span>
             </el-menu-item>
             <el-menu-item index="/home/director-add">
@@ -58,7 +58,7 @@
 
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-video-camera"></i>
               <span slot="title">电影管理</span>
             </template>
             <el-menu-item index="/home/movie-list">
@@ -68,6 +68,21 @@
             <el-menu-item index="/home/movie-add">
               <i class="el-icon-plus"></i>
               <span slot="title">添加电影</span>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-video-camera-solid"></i>
+              <span slot="title">电影院管理</span>
+            </template>
+            <el-menu-item index="/home/cinema-list">
+              <i class="el-icon-notebook-2"></i>
+              <span slot="title">电影院列表</span>
+            </el-menu-item>
+            <el-menu-item index="/home/cinema-add">
+              <i class="el-icon-plus"></i>
+              <span slot="title">添加电影院</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -85,6 +100,12 @@
             class="el-icon-s-unfold"
             @click="isCollapse = false"
           ></i>
+          <!-- 面包屑导航 -->
+          <el-breadcrumb separator="<">
+            <el-breadcrumb-item v-for="item in $route.meta.thumb" :key="item">{{
+              item
+            }}</el-breadcrumb-item>
+          </el-breadcrumb>
           <span>未登录</span>
         </el-header>
 

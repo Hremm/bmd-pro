@@ -161,8 +161,11 @@ export default {
     /** 提交表单 */
     submit() {
       // 处理一下form中的字段，改为服务端需要的格式（字符串）
-      this.form.starActor = this.form.starActor.join("／");
+      this.form.star_actor = this.form.star_actor.join("／");
       this.form.type = this.form.type.join("／");
+      this.form.actor = undefined;
+      this.form.director = undefined;
+      this.form.thumb = undefined;
       console.log(this.form);
       // 验证表单是否符合rules的要求
       this.$refs["form"].validate((valid) => {
@@ -172,7 +175,7 @@ export default {
           httpApi.movieAPI.add(this.form).then((res) => {
             if (res.data.code == 200) {
               // 跳转到列表
-              this.$message.success("恭喜，修改成功");
+              this.$message.success("恭喜，更新成功");
               this.$router.push("/home/movie-list");
             }
           });

@@ -15,6 +15,11 @@ import baseURL from "./http/baseURL";
 const uploadURL = baseURL.uploadURL;
 Vue.prototype.uploadURL = uploadURL;
 
+//设置高德地图密钥
+window._AMapSecurityConfig = {
+  securityJsCode: "ce9e830b9cbb20ae4ce751f720164aa5",
+};
+
 new Vue({
   router,
   store,

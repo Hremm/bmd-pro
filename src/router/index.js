@@ -17,34 +17,74 @@ const routes = [
       {
         path: "index",
         component: () => import("../views/index.vue"),
+        meta: {
+          thumb: ["首页"],
+        },
       },
       {
         path: "actor-list",
         component: () => import("../views/actor/actorList.vue"),
+        //meta意味着希望为该路由绑定一些自定义数据,这些自定义数据在组件中可以直接访问:通过this.$route.meta.thumb访问该数组
+        meta: {
+          thumb: ["演员管理", "演员列表"],
+        },
       },
       {
         path: "actor-add",
         component: () => import("../views/actor/actorAdd.vue"),
+        meta: {
+          thumb: ["演员管理", "新增演员"],
+        },
       },
       {
         path: "director-list",
         component: () => import("../views/director/DirectorList.vue"),
+        meta: {
+          thumb: ["导演管理", "导演列表"],
+        },
       },
       {
         path: "director-add",
         component: () => import("../views/director/DirectorAdd.vue"),
+        meta: {
+          thumb: ["导演管理", "新增导演"],
+        },
       },
       {
         path: "movie-list",
         component: () => import("../views/movie/MovieList.vue"),
+        meta: {
+          thumb: ["电影管理", "电影列表"],
+        },
       },
+
       {
         path: "movie-add",
         component: () => import("../views/movie/MovieAdd.vue"),
+        meta: {
+          thumb: ["电影管理", "新增电影"],
+        },
       },
       {
         path: "movie-update/:id",
         component: () => import("../views/movie/MovieUpdate.vue"),
+        meta: {
+          thumb: ["电影管理", "修改电影"],
+        },
+      },
+      {
+        path: "cinema-add",
+        component: () => import("../views/cinema/CinemaAdd.vue"),
+        meta: {
+          thumb: ["电影院管理", "添加电影院"],
+        },
+      },
+      {
+        path: "cinema-list",
+        component: () => import("../views/cinema/CinemaList.vue"),
+        meta: {
+          thumb: ["电影院管理", "电影院列表"],
+        },
       },
     ],
   },
