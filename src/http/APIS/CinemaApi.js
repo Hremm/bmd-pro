@@ -22,5 +22,10 @@ const cinemaApi = {
     let url = bmdURL + "/cinema/tags";
     return myaxios.get(url);
   },
+  //删除
+  del(params) {
+    let url = bmdURL + "/cinema/del";
+    return myaxios.post(url, params);
+  },
 };
 export default cinemaApi;

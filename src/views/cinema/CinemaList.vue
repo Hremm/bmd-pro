@@ -5,11 +5,50 @@
     <el-divider content-position="left">电影院列表</el-divider>
 
     <!-- 表格 -->
-    <el-table>
-      <el-table-column width="150px" label="影院名称"></el-table-column>
-      <el-table-column label="影院地址"></el-table-column>
-      <el-table-column width="250px" label="影院位置"></el-table-column>
-      <el-table-column width="250px" label="操作"></el-table-column>
+    <el-table :data="cinemas">
+      <el-table-column
+        prop="cinema_name"
+        width="150px"
+        label="影院名称"
+      ></el-table-column>
+      <el-table-column prop="address" label="影院地址"></el-table-column>
+      <el-table-column width="250px" label="影院位置">
+        <template slot-scope="scope">
+          {{ scope.row.province }}
+          {{ scope.row.city }}
+          {{ scope.row.district }}
+        </template>
+      </el-table-column>
+      <el-table-column width="180px" label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="small"
+            type="success"
+            icon="el-icon-map-location"
+            circle
+          ></el-button>
+          <el-button
+            size="small"
+            type="info"
+            icon="el-icon-video-camera-solid"
+            circle
+          ></el-button>
+          <el-button
+            size="small"
+            type="warning"
+            icon="el-icon-edit"
+            circle
+          ></el-button>
+          <el-button
+            @click="del(scope.row.id)"
+            size="small"
+            type="danger"
+            icon="el-icon-delete"
+            circle
+          >
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -25,6 +64,33 @@ export default {
     };
   },
   methods: {
+    //删除影院
+    del(id) {
+      console.log("点击了删除", id);
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          httpApi.cinemaApi.del({ id: id }).then((res) => {
+            console.log("删除成功了,删除的结果如下", res);
+            if (res.data.code == 200) {
+              this.initData();
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
     // 初始化地图
     initMap() {
       AMapLoader.load({
@@ -35,8 +101,8 @@ export default {
         this.map = new AMap.Map("main", {
           //设置地图容器id
           viewMode: "3D", //是否为3D地图模式
-          zoom: 11, //初始化地图级别
-          center: [116.397202, 39.905075], //初始化地图中心点位置
+          zoom: 12, //初始化地图级别
+          center: [113.659404, 34.772296], //初始化地图中心点位置
         });
         // 为地图对象绑定点击事件
         this.map.on("click", (e) => {
@@ -59,10 +125,18 @@ export default {
         });
       });
     },
+    /** 初始化数据 */
+    initData() {
+      httpApi.cinemaApi.queryAll().then((res) => {
+        console.log("加载电影院列表", res);
+        this.cinemas = res.data.data;
+      });
+    },
   },
 
   mounted() {
     this.initMap();
+    this.initData();
   },
 };
 </script>
