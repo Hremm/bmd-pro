@@ -26,12 +26,16 @@
             type="success"
             icon="el-icon-map-location"
             circle
+            @click="moveTo(scope.row)"
           ></el-button>
           <el-button
             size="small"
             type="info"
             icon="el-icon-video-camera-solid"
             circle
+            @click="
+              $router.push('/home/cinema/cinema-room-list/' + scope.row.id)
+            "
           ></el-button>
           <el-button
             size="small"
@@ -61,9 +65,17 @@ export default {
   data() {
     return {
       cinemas: [],
+      AMap: null,
     };
   },
   methods: {
+    moveTo(cinema) {
+      console.log(cinema);
+      let lng = cinema.longitude;
+      let lat = cinema.latitude;
+      this.map.setZoomAndCenter(15, [lng, lat], false, 700);
+    },
+
     //删除影院
     del(id) {
       console.log("点击了删除", id);
@@ -98,6 +110,7 @@ export default {
         version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
         plugins: ["AMap.Geocoder"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       }).then((AMap) => {
+        this.AMap = AMap;
         this.map = new AMap.Map("main", {
           //设置地图容器id
           viewMode: "3D", //是否为3D地图模式
@@ -123,6 +136,7 @@ export default {
             this.form.longitude = lng;
           });
         });
+        this.initData();
       });
     },
     /** 初始化数据 */
@@ -130,13 +144,26 @@ export default {
       httpApi.cinemaApi.queryAll().then((res) => {
         console.log("加载电影院列表", res);
         this.cinemas = res.data.data;
+        //此处可以为每一家电影院都添加一个点标记到地图上
+        this.cinemas.forEach((item) => {
+          let lng = item.longitude;
+          let lat = item.latitude;
+          // 创建一个 Marker 实例：
+
+          var marker = new AMap.Marker({
+            position: new AMap.LngLat(lng, lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+            title: item.cinema_name,
+          });
+
+          // 将创建的点标记添加到已有的地图实例：
+          this.map.add(marker);
+        });
       });
     },
   },
 
   mounted() {
     this.initMap();
-    this.initData();
   },
 };
 </script>

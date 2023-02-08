@@ -2,7 +2,7 @@
   <div>
     <!-- 面包屑导航 -->
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item>演员管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/' }">演员管理</el-breadcrumb-item>
       <el-breadcrumb-item>新增演员</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
@@ -41,6 +41,7 @@
 <script>
 import myaxios from "@/http/MyAxios.js";
 import add from "@/http/APIS/actorAPI";
+import httpApi from "@/http";
 export default {
   data() {
     return {
@@ -65,8 +66,9 @@ export default {
       // 验证表单，只有验证通过才发请求
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          let url = "http://localhost:3010/movie-actor/add";
-          myaxios.post(url, this.form).then((res) => {
+          // let url = "http://localhost:3010/movie-actor/add";
+
+          httpApi.actorAPI.add(this.form).then((res) => {
             console.log("添加演员结果", res);
             if (res.data.code == 200) {
               // 成功
