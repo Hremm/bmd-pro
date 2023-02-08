@@ -33,9 +33,7 @@
             type="info"
             icon="el-icon-video-camera-solid"
             circle
-            @click="
-              $router.push('/home/cinema/cinema-room-list/' + scope.row.id)
-            "
+            @click="$router.push('/home/cinema-room-list/' + scope.row.id)"
           ></el-button>
           <el-button
             size="small"

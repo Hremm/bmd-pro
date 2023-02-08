@@ -85,20 +85,6 @@
               <span slot="title">添加电影院</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-video-camera-solid"></i>
-              <span slot="title">放映厅管理</span>
-            </template>
-            <el-menu-item index="/home/cinema-room-list">
-              <i class="el-icon-notebook-2"></i>
-              <span slot="title">放映厅列表</span>
-            </el-menu-item>
-            <el-menu-item index="/home/cinema-room-add">
-              <i class="el-icon-plus"></i>
-              <span slot="title">添加放映厅</span>
-            </el-menu-item>
-          </el-submenu>
         </el-menu>
       </el-aside>
 
