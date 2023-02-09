@@ -33,6 +33,7 @@
       <el-table-column label="是否已发布" align="center">
         <template slot-scope="scope"
           ><el-switch
+            @change="changeStatus(scope.row.plan_id, $event)"
             active-value="1"
             inactive-value="0"
             v-model="scope.row.status"
@@ -40,8 +41,14 @@
         ></template>
       </el-table-column>
       <el-table-column label="操作" align="center">
-        <template>
-          <el-button size="small" type="danger" icon="el-icon-delete" circle>
+        <template slot-scope="scope">
+          <el-button
+            size="small"
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            @click="del(scope.row.plan_id)"
+          >
           </el-button> </template
       ></el-table-column>
     </el-table>
@@ -58,6 +65,47 @@ export default {
     };
   },
   methods: {
+    //删除排片计划
+    del(plan_id) {
+      console.log("点击了删除", plan_id);
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          httpApi.showingonPlanApi.delete({ id: plan_id }).then((res) => {
+            console.log("删除的结果如下", res);
+            if (res.data.code == 200) {
+              this.initPlans();
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    //修改发布状态
+    changeStatus(num, event) {
+      console.log(num, event);
+      if (event == 1) {
+        httpApi.showingonPlanApi.publish({ id: num }).then((res) => {
+          console.log("该计划已发布", res);
+        });
+      } else {
+        httpApi.showingonPlanApi.noPublish({ id: num }).then((res) => {
+          console.log("已取消发布", res);
+        });
+      }
+      event = 1;
+    },
     //初始化放映厅的数据
     initRoomData() {
       let id = this.$route.params.roomId;

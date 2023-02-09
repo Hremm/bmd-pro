@@ -17,7 +17,13 @@
         align="center"
         prop="room_type"
       ></el-table-column>
-      <el-table-column label="放映厅座位数" align="center"></el-table-column>
+      <el-table-column label="放映厅座位数" align="center">
+        <template slot-scope="scope">
+          {{
+            scope.row.room_size ? scope.row.room_size : "【暂未配置座位模板】"
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button
@@ -39,7 +45,7 @@
             type="warning"
             icon="el-icon-edit"
             circle
-            @click="$router.push('/home/seat-template')"
+            @click="$router.push('/home/seat-template/' + scope.row.id)"
           ></el-button>
           <el-button size="small" type="danger" icon="el-icon-delete" circle>
           </el-button>
