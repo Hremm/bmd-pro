@@ -11,8 +11,9 @@
     新增排片计划
     <el-divider content-position="left"></el-divider>
     <el-form label-width="130px" :model="form" ref="form">
-      <el-form-item label="电影名称">
+      <el-form-item label="电影名称" prop="movie_id">
         <el-select
+          ref="selector"
           style="width: 100%"
           v-model="form.movie_id"
           filterable
@@ -30,10 +31,10 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="放映时间">
+      <el-form-item label="放映时间" prop="showingon_date">
         <el-col :span="11">
           <el-date-picker
-            v-model="form.showingon_data"
+            v-model="form.showingon_date"
             type="date"
             placeholder="选择日期"
             style="width: 100%"
@@ -54,11 +55,15 @@
           ></el-time-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="票价">
+      <el-form-item label="票价" prop="price">
         <el-input v-model="form.price"></el-input>
       </el-form-item>
-      <el-form-item label="立即发布">
-        <el-switch></el-switch>
+      <el-form-item label="立即发布" prop="status">
+        <el-switch
+          v-model="form.status"
+          active-value="1"
+          inactive-value="0"
+        ></el-switch>
       </el-form-item>
 
       <el-form-item>
@@ -79,9 +84,9 @@ export default {
         cinema_id: "",
         cinema_room_id: "",
         movie_id: "",
-        showingon_data: "",
+        showingon_date: "",
         showingon_time: "",
-        status: "",
+        status: "1",
         price: "",
       },
       loading: false, //用于说明当前select是否正在异步加载数据
@@ -94,6 +99,31 @@ export default {
       this.form.cinema_id = this.roomInfo.cinema_id;
       this.form.cinema_room_id = this.$route.params.roomId;
       console.log(this.form);
+      httpApi.showingonPlanApi.add(this.form).then((res) => {
+        console.log("添加结果如下", res);
+        console.log("下拉列表对象", this.$refs["selector"]);
+        if (res.data.code == 200) {
+          // 成功
+          this.$message.success("恭喜，添加成功");
+
+          this.$notify({
+            dangerouslyUseHTMLString: true,
+            title: "添加成功",
+            message: `<p>影院名称:<b>${this.roomInfo.cinema_name}</b><p>
+            <p>放映厅：<b>${this.roomInfo.cinema_room_name}（${this.roomInfo.cinema_room_type}）</b></p>
+            <p>电影名称：<b>《${this.$refs["selector"]._data.selectedLabel}》</b></p>
+            <p>上映时间：<b>${this.form.showingon_date} ${this.form.showingon_time}</b></p>
+            <p>票价：<b>${this.form.price}元</b></p>`,
+            type: "success",
+          });
+          this.$refs["form"].resetFields();
+          this.form.showingon_time = "";
+        } else {
+          // 失败
+          this.$message.error("添加失败，稍后重试");
+        }
+        // 重置表单
+      });
     },
     //异步模糊查询电影信息,更新select选择器
     remoteMethod(query) {

@@ -100,6 +100,20 @@ const routes = [
           thumb: ["电影院管理", "电影院列表", "放映厅列表", "新增排片计划"],
         },
       },
+      {
+        path: "showingon-plan-list/:roomId",
+        component: () => import("../views/cinema/ShowingonPlanList.vue"),
+        meta: {
+          thumb: ["电影院管理", "电影院列表", "放映厅列表", "排片计划列表"],
+        },
+      },
+      {
+        path: "seat-template/:roomId",
+        component: () => import("../views/cinema/CinemaRoomSeatTemplate.vue"),
+        meta: {
+          thumb: ["电影院管理", "电影院列表", "放映厅列表", "配置座位模板"],
+        },
+      },
     ],
   },
   {

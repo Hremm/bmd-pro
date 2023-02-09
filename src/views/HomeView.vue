@@ -18,7 +18,7 @@
             <img width="30px" src="../assets/logo.svg" alt="" />
             <template slot="title">
               <span style="font-size: 1.2em; color: #efefef; font-weight: bold"
-                >&nbsp;&nbsp;百慕大影城后台管理</span
+                >&nbsp;&nbsp;仙贝影院后台管理</span
               >
             </template>
           </el-menu-item>

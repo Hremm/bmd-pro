@@ -25,6 +25,7 @@
             type="success"
             icon="el-icon-view"
             circle
+            @click="$router.push('/home/showingon-plan-list/' + scope.row.id)"
           ></el-button>
           <el-button
             size="small"
@@ -38,6 +39,7 @@
             type="warning"
             icon="el-icon-edit"
             circle
+            @click="$router.push('/home/seat-template')"
           ></el-button>
           <el-button size="small" type="danger" icon="el-icon-delete" circle>
           </el-button>
