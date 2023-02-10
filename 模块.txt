@@ -14,3 +14,5 @@ pm2(服务器端)
             @click="del(scope.row.需要的数据:如id)"
           >
           </el-button> </template>
+
+:属性名

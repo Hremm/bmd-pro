@@ -68,7 +68,7 @@ export default {
     //删除排片计划
     del(plan_id) {
       console.log("点击了删除", plan_id);
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该排片计划, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
