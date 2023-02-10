@@ -68,7 +68,13 @@ export default {
         if (valid) {
           httpApi.adminApi.login(this.form).then((res) => {
             console.log("登录结果", res);
+
             if (res.data.code == 200) {
+              //将对象存入vuex
+              this.$store.commit("updateUser", res.data.data.user);
+
+              //token存入vuex中
+              this.$store.commit("saveToken", res.data.data.token);
               this.$router.push("/");
             } else {
               this.$refs["form"].resetFields;

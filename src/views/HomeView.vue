@@ -106,7 +106,7 @@
               item
             }}</el-breadcrumb-item>
           </el-breadcrumb>
-          <span>未登录</span>
+          <span>{{ user.username }}</span>
         </el-header>
 
         <el-main>
@@ -119,11 +119,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       isCollapse: false,
     };
+  },
+  /*  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  }, */
+  computed: {
+    ...mapState(["user", "cityname"]),
   },
 };
 </script>

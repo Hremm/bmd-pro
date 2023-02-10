@@ -1,3 +1,4 @@
+import store from "@/store";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
@@ -127,6 +128,21 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+//添加全局前置守卫
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  if (to.path == "/user/login") {
+    next();
+  } else {
+    if (store.state.user) {
+      next();
+    } else {
+      router.push("/user.login");
+    }
+  }
 });
 
 export default router;

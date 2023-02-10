@@ -34,8 +34,8 @@
         <template slot-scope="scope"
           ><el-switch
             @change="changeStatus(scope.row.plan_id, $event)"
-            active-value="1"
-            inactive-value="0"
+            :active-value="1"
+            :inactive-value="0"
             v-model="scope.row.status"
           ></el-switch
         ></template>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       roomInfo: {}, //保存放映厅的基本信息
-      plans: [],
+      plans: [], //保存排片列表的信息
     };
   },
   methods: {
@@ -104,7 +104,6 @@ export default {
           console.log("已取消发布", res);
         });
       }
-      event = 1;
     },
     //初始化放映厅的数据
     initRoomData() {
