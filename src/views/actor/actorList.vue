@@ -1,12 +1,5 @@
 <template>
   <div>
-    <!-- 面包屑导航 -->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item>演员管理</el-breadcrumb-item>
-      <el-breadcrumb-item>演员列表</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-divider></el-divider>
-
     <!-- 搜索表单 -->
     <el-form @submit.native.prevent :inline="true" class="demo-form-inline">
       <el-form-item label="姓名">
@@ -61,7 +54,7 @@ export default {
       console.log("在父组件中 捕获到了用户点了叉子:id=" + id);
       // 发送请求，删除该演员
 
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该演员, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

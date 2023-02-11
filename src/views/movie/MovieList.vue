@@ -1,11 +1,6 @@
 <template>
   <div>
-    <!-- 面包屑导航 -->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item>电影管理</el-breadcrumb-item>
-      <el-breadcrumb-item>电影列表</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-divider></el-divider>
+ 
 
     <!-- 搜索表单 -->
     <el-form @submit.native.prevent :inline="true" class="demo-form-inline">
@@ -157,7 +152,7 @@ export default {
     },
     del(movie) {
       console.log("点击了删除", movie);
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该电影, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

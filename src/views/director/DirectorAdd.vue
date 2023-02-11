@@ -1,14 +1,13 @@
 <template>
   <div>
-    <!-- 面包屑导航 -->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item>导演管理</el-breadcrumb-item>
-      <el-breadcrumb-item>新增导演</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-divider></el-divider>
-
     <!-- 添加导演表单 -->
-    <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="width:600px">
+    <el-form
+      ref="form"
+      :model="form"
+      :rules="rules"
+      label-width="100px"
+      style="width: 600px"
+    >
       <el-form-item label="导演姓名" prop="directorName">
         <el-input v-model="form.directorName"></el-input>
       </el-form-item>
@@ -20,7 +19,11 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="form.directorAvatar" :src="form.directorAvatar" class="avatar">
+          <img
+            v-if="form.directorAvatar"
+            :src="form.directorAvatar"
+            class="avatar"
+          />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -39,16 +42,16 @@ export default {
     return {
       form: {
         directorName: "", // 封装导演名字
-        directorAvatar: "" // 封装导演头像路径
+        directorAvatar: "", // 封装导演头像路径
       },
       rules: {
         directorName: [
-          { required: true, message: "导演姓名不能为空", trigger: "blur" }
+          { required: true, message: "导演姓名不能为空", trigger: "blur" },
         ],
         directorAvatar: [
-          { required: true, message: "请选择一张头像", trigger: "blur" }
-        ]
-      }
+          { required: true, message: "请选择一张头像", trigger: "blur" },
+        ],
+      },
     };
   },
 
@@ -56,10 +59,10 @@ export default {
     /** 提交表单 */
     submit() {
       // 验证表单，只有验证通过才发请求
-      this.$refs["form"].validate(valid => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           let url = "http://localhost:3010/movie-director/add";
-          myaxios.post(url, this.form).then(res => {
+          myaxios.post(url, this.form).then((res) => {
             console.log("添加导演结果", res);
             if (res.data.code == 200) {
               // 成功
@@ -69,7 +72,7 @@ export default {
               this.$message.error("添加失败，稍后重试");
             }
             // 重置表单
-            this.$refs['form'].resetFields()
+            this.$refs["form"].resetFields();
           });
         }
       });
@@ -93,8 +96,8 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
-    }
-  }
+    },
+  },
 };
 </script>
 
